@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+
+    <link rel="stylesheet" href="{% static "css/register.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+</head>
+<body>
+    
+    <div class="wrapper" style="background-color: gainsboro;">
+        <div class="inner">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h3>Registration</h3>
+                {% if messages %}
+                    {% for message in messages %}
+                    <p style="color:red;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <div class="form-group">
+                    <input type="text" placeholder="First Name" name="fname" class="form-control">
+                    <input type="text" placeholder="Last Name" name="lname" class="form-control">
+                </div>
+                <div class="form-wrapper">
+                    <input type="text" placeholder="Email Address" name="email" class="form-control">
+                    <i class="zmdi zmdi-email"></i>
+                </div>
+                <div class="form-wrapper">
+                    <select name="gender" id="" class="form-control">
+                        <option value="" disabled selected>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    {% comment %} <i class="zmdi zmdi-caret-down" style="font-size: 17px"></i> {% endcomment %}
+                </div>
+                <div class="form-wrapper">
+                    <input type="password" placeholder="Password" name="password" class="form-control">
+                    <i class="zmdi zmdi-lock"></i>
+                </div>
+                <div class="form-wrapper">
+                    <input type="password" placeholder="Confirm Password" name="confirm" class="form-control">
+                    <i class="zmdi zmdi-lock"></i>
+                </div>
+                <button type="submit" name="register">Register
+                    <i class="zmdi zmdi-arrow-right"></i>
+                </button><br><br>
+                Already have a account : <a href="{% url "login_page" %}">Login</a>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="{% static "css/register.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+
+</head>
+<body>
+    
+    <div class="wrapper" style="background-color: gainsboro;">
+        <div class="inner">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h3>Login</h3>
+                {% if messages %}
+                    {% for message in messages %}
+                    <p style="color:red;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <div class="form-wrapper">
+                    <input type="text" placeholder="Email Address" name="email" class="form-control">
+                    <i class="zmdi zmdi-email"></i>
+                </div>
+                <div class="form-wrapper">
+                    <input type="password" placeholder="Password" name="password" class="form-control">
+                    <i class="zmdi zmdi-lock"></i>
+                </div>
+                <button type="submit" name="login">Login
+                    <i class="zmdi zmdi-arrow-right"></i>
+                </button><br><br>
+                Create an account : <a href="{% url "register_page" %}">Register</a>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
