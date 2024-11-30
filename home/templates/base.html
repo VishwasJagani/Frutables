@@ -55,7 +55,7 @@
         </div>
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="{% url "home" %}" class="navbar-brand"><h1 class="text-primary display-6">Frutables</h1></a>
+                <a href="{% url "home" %}" class="navbar-brand"><h1 class="text-primary display-6">{{contact.name}}</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
@@ -84,7 +84,7 @@
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 <a href="{% url "user_profile" %}" class="nav-item nav-link">Your Profile</a>
                                 <a href="{% url "profile_edit" %}" class="nav-item nav-link">Edit Your Profile</a>
-                                <a href="{% url "profile_edit" %}" class="nav-item nav-link">Change Your Password</a>
+                                <a href="{% url "change_pass" %}" class="nav-item nav-link">Change Your Password</a>
                                 <a href="{% url "logout_page" %}" class="nav-item nav-link">Logout</a>
                             </div>
                             {% else %}
@@ -131,7 +131,7 @@
                 <div class="row g-4">
                     <div class="col-lg-3">
                         {% comment %} <a href="#"> {% endcomment %}
-                            <h1 class="text-primary mb-0">Frutables</h1>
+                            <h1 class="text-primary mb-0">{{contact.name}}</h1>
                             <p class="text-secondary mb-0">Fresh products</p>
                         {% comment %} </a> {% endcomment %}
                     </div>
@@ -155,8 +155,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-item">
                         <h4 class="text-light mb-3">Why People Like us!</h4>
-                        <p class="mb-4">typesetting, remaining essentially unchanged. It was 
-                            popularised in the 1960s with the like Aldus PageMaker including of Lorem Ipsum.</p>
+                        <p class="mb-4">{{contact.discription}}</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -184,9 +183,9 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-item">
                         <h4 class="text-light mb-3">Contact</h4>
-                        <p>Address: 1429 Netus Rd, NY 48247</p>
-                        <p>Email: Example@gmail.com</p>
-                        <p>Phone: +0123 4567 8910</p>
+                        <p>Address: {{contact.address}}</p>
+                        <p>Email: {{contact.email}}</p>
+                        <p>Phone: {{contact.number}}</p>
                         <p>Payment Accepted</p>
                         <img src="{% static "img/payment.png" %}" class="img-fluid" alt="">
                     </div>

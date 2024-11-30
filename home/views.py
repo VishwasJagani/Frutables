@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from home.models import *
+from django.db.models import *
 
 # Create your views here.
 
@@ -12,30 +13,84 @@ def base(request):
         userid = request.session['userid']
         std = register.objects.get(id=userid) 
 
-    return std
+    a = Contact.objects.get()
+    return std,a
 
 def home(request):
     user = base(request)
 
     slide = slider.objects.all()
+    a = product.objects.all()
+    b = category.objects.all()  
 
-    return render(request, "home/index.html" , {"row":user , "slider":slide})
+    context = {
+        "row":user[0], 
+        "contact":user[1], 
+        "slider":slide, 
+        "a":a, 
+        "b":b,
+    }
+
+    return render(request, "home/index.html" , context)
 
 def shop(request):
     user = base(request)
-    return render(request, "home/shop.html", {"row":user})
+
+    a = product.objects.all()
+    b = category.objects.all()
+    c = subcategory.objects.all()
+
+    ran = len(a)
+
+    d = product.objects.all().order_by('?')[:ran-2]
+
+    if 'search' in request.POST:
+        search = request.POST['text']
+        a = product.objects.filter(name__icontains = search)
+    
+    context = {
+        "row":user[0], 
+        "contact":user[1], 
+        "a":a, 
+        "b":b, 
+        "c":c, 
+        "d":d,
+    }
+
+    return render(request, "home/shop.html", context)
 
 def product_detail(request):
     user = base(request)
-    return render(request , "home/product_detail.html", {"row":user})
+
+    context = {
+        "row":user[0], 
+        "contact":user[1],
+    }
+
+    return render(request , "home/product_detail.html", context)
 
 def contact(request):
     user = base(request)
-    return render(request , "home/contact.html", {"row":user})
+
+    a = Contact.objects.get()
+
+    context = {
+        "row":user[0] , 
+        "a":a, 
+        "contact":user[1],
+    }
+
+    return render(request , "home/contact.html", context)
 
 def testimonial(request):
     user = base(request)
-    return render(request, "home/testimonial.html", {"row":user})
+
+    context = {
+        "row":user[0] , 
+        "contact":user[1],
+    }
+
+    return render(request, "home/testimonial.html", context)
 
 def register_page(request):
 
