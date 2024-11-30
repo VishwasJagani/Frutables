@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/user_profile.css" %}">
+
+</head>
+<body>
+    
+    <div class="container rounded">
+        <form method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    {% if row.image %}
+                    <img class="rounded-circle mt-5" width="150px" src="{{row.image.url}}">
+                    {% endif %}
+                    <br>
+                    <input type="file" class="form-control" name="image" id="" value="{{row.image}}">
+                </div>
+            </div>
+            <div class="col-md-8 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="text-right">Edit Your Profile</h3>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                        <p style="color:red;">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Name</label>
+                            <input type="text" class="form-control" placeholder="first name" value="{{row.fname}}" name="fname">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Surname</label>
+                            <input type="text" class="form-control" value="{{row.lname}}" placeholder="surname" name="lname">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label class="labels">Mobile Number</label>
+                            <input type="number" class="form-control" placeholder="enter phone number" value="{{row.number}}" name="number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Email ID</label>
+                            <input type="email" class="form-control" placeholder="enter email id" name="email" value="{{row.email}}">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">Address</label>
+                            {% comment %} <input type="text" class="form-control" placeholder="enter address line 1" value=""> {% endcomment %}
+                            <textarea name="address" class="form-control" placeholder="enter address">{{row.address}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label class="labels">Country</label>
+                            <input type="text" class="form-control" name="country" placeholder="country" value="{{row.country}}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">State/Region</label>
+                            <input type="text" class="form-control" value="{{row.city}}" name="city" placeholder="state">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label class="labels">Pincode</label>
+                            <input type="text" class="form-control" placeholder="country" name="pincode" value="{{row.pincode}}">
+                        </div>
+                        <div class="mt-5 text-center">
+                            <input type="submit" value="Submit" class="btn btn-outline-dark profile-button" name="profile_edit">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+</body>
+</html>

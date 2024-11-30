@@ -1,0 +1,30 @@
+body {
+    /* background: rgb(99, 39, 120) */
+    background-image: url('../img/hero-img.jpg');
+    background-size: cover;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #81c408;
+}
+
+.profile-button {
+
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+
+.labels {
+    font-size: 15px;
+    font-family: Georgia;
+}
+
+.p1{
+    font-size: 18px;
+    margin-top: -15px;
+    font-weight: 500;
+    font-style: italic;
+}

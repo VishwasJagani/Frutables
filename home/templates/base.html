@@ -82,6 +82,9 @@
                                 </a>
                             {% if row %}
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                <a href="{% url "user_profile" %}" class="nav-item nav-link">Your Profile</a>
+                                <a href="{% url "profile_edit" %}" class="nav-item nav-link">Edit Your Profile</a>
+                                <a href="{% url "profile_edit" %}" class="nav-item nav-link">Change Your Password</a>
                                 <a href="{% url "logout_page" %}" class="nav-item nav-link">Logout</a>
                             </div>
                             {% else %}

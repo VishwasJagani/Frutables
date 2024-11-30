@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
-from .models import *
+from home.models import *
 
 # Create your views here.
 
@@ -11,25 +11,31 @@ def base(request):
     if 'userid' in request.session:
         userid = request.session['userid']
         std = register.objects.get(id=userid) 
-    # print(a)
+
     return std
 
 def home(request):
     user = base(request)
-    return render(request, "home/index.html" , {"row":user})
+
+    slide = slider.objects.all()
+
+    return render(request, "home/index.html" , {"row":user , "slider":slide})
 
 def shop(request):
-    return render(request, "home/shop.html")
+    user = base(request)
+    return render(request, "home/shop.html", {"row":user})
 
 def product_detail(request):
-    return render(request , "home/product_detail.html")
+    user = base(request)
+    return render(request , "home/product_detail.html", {"row":user})
 
 def contact(request):
     user = base(request)
     return render(request , "home/contact.html", {"row":user})
 
 def testimonial(request):
-    return render(request, "home/testimonial.html")
+    user = base(request)
+    return render(request, "home/testimonial.html", {"row":user})
 
 def register_page(request):
 
@@ -37,26 +43,42 @@ def register_page(request):
         fname = request.POST['fname']
         lname = request.POST['lname']
         email = request.POST['email']
+        number = request.POST['number']
         gender = request.POST['gender']
         password = request.POST['password']
         confirm = request.POST['confirm']
+        address = request.POST['address']
+        city = request.POST['city']
+        country = request.POST['country']
+        pincode = request.POST['pincode']
+        image = request.FILES['image']
 
-        if confirm == password:
-            b = make_password(password)
-            obj = register(
-                fname = fname,
-                lname = lname,
-                email = email,
-                gender = gender,
-                password = b,
-            )
-            obj.save()
-            request.session['userid'] = obj.id
-            return redirect(reverse("home"))
+        if not register.objects.filter(email=email):
+            if confirm == password:
+                b = make_password(password)
+                obj = register(
+                    fname = fname,
+                    lname = lname,
+                    email = email,
+                    number = number,
+                    gender = gender,
+                    password = b,
+                    address = address,
+                    city = city,
+                    country = country,
+                    pincode = pincode,
+                    image = image,
+                )
+                obj.save()
+                request.session['userid'] = obj.id
+                return redirect(reverse("home"))
 
+            else:
+                messages.error(request, "Please Check Your Confirm Password")
+                return redirect(reverse("register_page"))
         else:
-            messages.error(request, "Please Check Your Confirm Password")
-            return redirect(reverse("register_page"))
+            messages.error(request,"This Email is already register with us")
+            return redirect("register_page")
 
     return render(request, "home/register.html")
 
