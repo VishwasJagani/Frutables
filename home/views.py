@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from home.models import *
-from django.db.models import *
+# from django.db.models import *
 
 # Create your views here.
 
@@ -12,8 +12,9 @@ def base(request):
     if 'userid' in request.session:
         userid = request.session['userid']
         std = register.objects.get(id=userid) 
-
+    
     a = Contact.objects.get()
+
     return std,a
 
 def home(request):
@@ -40,14 +41,23 @@ def shop(request):
     b = category.objects.all()
     c = subcategory.objects.all()
 
-    ran = len(a)
+    sor = set()
+    fru = 0
+    vege = 0
 
-    d = product.objects.all().order_by('?')[:ran-2]
+    d = product.objects.all().order_by('?')[:3]
 
-    if 'search' in request.POST:
-        search = request.POST['text']
-        a = product.objects.filter(name__icontains = search)
+    for i in a:
+        if i.cat.name == "Fruits":
+            fru += 1
+        else:
+            vege += 1
+        sor.add(i.cat.name)
     
+    if 'search' in request.POST:
+        search = request.POST['text'] 
+        a = product.objects.filter(name__icontains = search)
+
     context = {
         "row":user[0], 
         "contact":user[1], 
@@ -55,16 +65,24 @@ def shop(request):
         "b":b, 
         "c":c, 
         "d":d,
+        "sor" : sor,
+        "fru" : fru,
+        "vege" : vege,
     }
 
     return render(request, "home/shop.html", context)
 
-def product_detail(request):
+def product_detail(request,id):
     user = base(request)
+
+    a = product.objects.filter(id=id).get()
+    b = product.objects.all()
 
     context = {
         "row":user[0], 
         "contact":user[1],
+        "a" : a,
+        "b": b,
     }
 
     return render(request , "home/product_detail.html", context)
@@ -161,3 +179,53 @@ def login_page(request):
 def logout_page(request):
     del request.session['userid']
     return redirect("home")    
+
+def fruits(request):
+    user = base(request)
+    sor = set()
+
+    a = product.objects.all()
+    b = category.objects.all()
+    c = subcategory.objects.all()
+    
+    d = product.objects.all().order_by('?')[:3]
+
+    for i in a:
+        if i.cat.name == "Fruits":
+            sor.add(i)
+
+    context = {
+        "row":user[0] , 
+        "contact":user[1],
+        "a" : sor,
+        "b" : b,
+        "c" : c,
+        "d" : d,
+    }
+
+    return render(request, "home/shop.html" , context)
+
+def vegetables(request):
+    user = base(request)
+    sor = set()
+
+    a = product.objects.all()
+    b = category.objects.all()
+    c = subcategory.objects.all()
+    
+    d = product.objects.all().order_by('?')[:3]
+
+    for i in a:
+        if i.cat.name == "Vegetables":
+            sor.add(i)
+
+    context = {
+        "row":user[0] , 
+        "contact":user[1],
+        "a" : sor,
+        "b" : b,
+        "c" : c,
+        "d" : d,
+    }
+
+    return render(request, "home/shop.html",context)

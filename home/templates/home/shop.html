@@ -27,7 +27,7 @@ Shop - Frutable
                             <form method="post">
                                 {% csrf_token %}
                                 <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" name="text" placeholder="Search">
+                                    <input type="search" class="form-control p-3" value="" name="text" placeholder="Search">
                                     <button class="btn btn-outline-dark" type="submit" name="search">
                                         <i class="fa fa-search"></i>
                                     </button>
@@ -54,11 +54,15 @@ Shop - Frutable
                                     <div class="mb-3">
                                         <h4>Categories</h4>
                                         <ul class="list-unstyled fruite-categorie">
-                                            {% for row in b %}
+                                            {% for row in sor %}
                                             <li>
                                                 <div class="d-flex justify-content-between fruite-name">
-                                                    <a href="#">{{row.name}}</a>
-                                                    <span>2</span>
+                                                    <a href="/{{row}}/">{{row}}</a>
+                                                    {% if row == "Fruits" %}
+                                                    <span>{{fru}}</span>
+                                                    {% else %}
+                                                    <span>{{vege}}</span>
+                                                    {% endif %}
                                                 </div>
                                             </li>
                                             {% endfor %}
@@ -69,18 +73,21 @@ Shop - Frutable
                                     <div class="mb-3">
                                         <h4 class="mb-2">Price</h4>
                                         <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
-                                        <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output>
+                                        <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output><br>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <h4>Additional</h4>
+                                        <form action="" method="post">
                                         {% for row in c %}
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories" name="Categories-1" value="Beverages">
-                                            <label for="Categories">{{row.name}}</label>
-                                        </div>
+                                            <div class="mb-2">
+                                                {% csrf_token %}
+                                                <input type="radio" id="option1" name="choice" value="{{row.name}}">
+                                                <label>{{row.name}}</label>
+                                            </div>
                                         {% endfor %}
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -101,9 +108,6 @@ Shop - Frutable
                                         </div>
                                     </div>
                                     {% endfor %}
-                                    <div class="d-flex justify-content-center my-4">
-                                        <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -114,14 +118,14 @@ Shop - Frutable
                                     <div class="rounded position-relative fruite-item">
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{row.cat}}</div>
                                         <div class="p-4 border border-left-1 rounded-bottom" style="height:500px;">
-                                            <a href="#">
+                                            <a href="{% url "product_detail" row.id %}">
                                                 <img src="{{row.image.url}}" class="w-100 rounded-top" height="200px" alt="">
                                             </a>
                                             <h4 class="text-center mt-2">{{row.name}}</h4>
                                             <p class="text-center">{{row.discription}}</p>
                                             <div class="d-flex justify-content-center flex-lg-wrap">
                                                 <p class="text-dark fs-5 fw-bold mb-2">Rs.{{row.price}} / {{row.weight}}</p>
-                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                <a href="{% url "cart1" row.id %}" class="btn border border-secondary rounded-pill px-3 text-primary">
                                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                 </a>
                                             </div>

@@ -61,7 +61,7 @@
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="{% url "home" %}" class="nav-item nav-link active">Home</a>
+                        <a href="{% url "home" %}" class="nav-item nav-link">Home</a>
                         <a href="{% url "shop" %}" class="nav-item nav-link">Shop</a>
                         {% comment %} <a href="{% url "product_detail" %}" class="nav-item nav-link">Product Detail</a> {% endcomment %}
                         <a href="{% url "testimonial" %}" class="nav-item nav-link">Testimonial</a>
@@ -84,7 +84,6 @@
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 <a href="{% url "user_profile" %}" class="nav-item nav-link">Your Profile</a>
                                 <a href="{% url "profile_edit" %}" class="nav-item nav-link">Edit Your Profile</a>
-                                <a href="{% url "change_pass" %}" class="nav-item nav-link">Change Your Password</a>
                                 <a href="{% url "logout_page" %}" class="nav-item nav-link">Logout</a>
                             </div>
                             {% else %}
@@ -102,6 +101,8 @@
     <!-- Navbar End -->
 
     <!-- Modal Search Start -->
+    <form method="post">
+    {% csrf_token %}
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
@@ -110,15 +111,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex align-items-center">
-                    <div class="input-group w-75 mx-auto d-flex">
-                        <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="text" class="form-control p-3" name="text" placeholder="keywords">
+                            <input type="submit" name="search" id="" class="btn btn-outline-dark" value="submit">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal Search End -->
+    </form>
+        <!-- Modal Search End -->
 
     {% block content %}
     {% endblock %}

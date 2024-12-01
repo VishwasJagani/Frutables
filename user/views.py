@@ -36,17 +36,17 @@ def profile_edit(request):
                 if len(std.image) > 0:
                     os.remove(std.image.path)
                     std.image = request.FILES['image']
-                std.fname = fname
-                std.lname = lname
-                std.email = email
-                std.number = number
-                std.address = address
-                std.country = country
-                std.city = city
-                std.pincode = pincode
+            std.fname = fname
+            std.lname = lname
+            std.email = email
+            std.number = number
+            std.address = address
+            std.country = country
+            std.city = city
+            std.pincode = pincode
 
-                std.save()
-                return redirect("user_profile")
+            std.save()
+            return redirect("user_profile")
 
     return render(request, "user/user_profile_edit.html",{"row":std})
 
